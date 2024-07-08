@@ -1,53 +1,57 @@
 CREATE TABLE dates (
-  date DATE PRIMARY KEY ON DELETE CASCADE,
-  month integer,
-  month_name varchar,
-  day integer,
-  day_name varchar,
-  quarter integer,
-  weekend bool
+  date_key VARCHAR PRIMARY KEY,
+  date DATE,
+  month INTEGER,
+  month_name VARCHAR,
+  day INTEGER,
+  day_name VARCHAR,
+  quarter INTEGER,
+  weekend BOOL
 );
 
 CREATE TABLE demographics (
-  id integer PRIMARY KEY ON DELETE CASCADE,
-  user_type varchar,
-  birth_year integer,
-  gender integer
+  id INTEGER PRIMARY KEY,
+  user_type VARCHAR,
+  birth_year INTEGER,
+  gender INTEGER
 );
 
 CREATE TABLE stations (
-  id integer PRIMARY KEY ON DELETE CASCADE,
-  name varchar,
-  longitude float,
-  latitude float
+  id INTEGER PRIMARY KEY,
+  name VARCHAR,
+  longitude REAL,
+  latitude REAL
 );
 
 CREATE TABLE journeys (
-  id integer PRIMARY KEY,
-  bike_id integer,
-  demographics_id integer REFERENCES demographics(id) ON DELETE CASCADE,
-  start_station_id integer REFERENCES stations(id) ON DELETE CASCADE,
-  end_station_id integer REFERENCES stations(id) ON DELETE CASCADE,
-  trip_duration integer,
-  start_date DATE REFERENCES dates(date) ON DELETE CASCADE,
+  id INTEGER PRIMARY KEY,
+  bike_id INTEGER,
+  demographics_id INTEGER REFERENCES demographics(id) ON DELETE CASCADE,
+  start_station_id INTEGER REFERENCES stations(id) ON DELETE CASCADE,
+  end_station_id INTEGER REFERENCES stations(id) ON DELETE CASCADE,
+  date_key VARCHAR REFERENCES dates(date_key) ON DELETE CASCADE,
+  trip_duration INTEGER,
+  start_date DATE,
   start_time TIME,
-  stop_date DATE REFERENCES dates(date) ON DELETE CASCADE,
-  stop_time TIME
+  stop_date DATE,
+  stop_time TIME,
+  over_24_hrs BOOL
 );
 
 CREATE TABLE weather (
-  date date REFERENCES dates(date) ON DELETE CASCADE,
-  avg_wind_speed float,
-  rained bool,
-  snowed bool,
-  precipitation float,
-  snow_amount float,
-  snow_depth float,
-  avg_temperature float,
-  max_temperature float,
-  min_temperature float,
-  fastest_two_minute_wind_direction float,
-  fastest_five_minute_wind_direction float,
-  fastest_two_minute_wind_speed float,
-  fastest_five_minute_wind_speed float
+  date_key VARCHAR REFERENCES dates(date_key) ON DELETE CASCADE,
+  date DATE,
+  avg_wind_speed REAL,
+  rained BOOL,
+  snowed BOOL,
+  precipitation REAL,
+  snow_amount REAL,
+  snow_depth REAL,
+  avg_temperature REAL,
+  max_temperature REAL,
+  min_temperature REAL,
+  fastest_two_minute_wind_direction REAL,
+  fastest_five_minute_wind_direction REAL,
+  fastest_two_minute_wind_speed REAL,
+  fastest_five_minute_wind_speed REAL
 );
